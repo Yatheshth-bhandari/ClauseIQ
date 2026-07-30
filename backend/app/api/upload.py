@@ -23,6 +23,8 @@ async def upload_pdf(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+        
+    store_document(file.filename, text)
     text = extract_text(file_path)
 
     summary = summarize_contract(text)
