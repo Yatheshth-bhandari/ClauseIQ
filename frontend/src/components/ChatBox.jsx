@@ -25,10 +25,10 @@ export default function ChatBox({ documentId }) {
         setAnswer(response.data.answer);
 
     } catch (error) {
-
-        console.log(error);
-
-    } finally {
+    console.log(error);
+    console.log(error.response);
+    console.log(error.response?.data);
+} finally {
 
         setLoading(false);
 

@@ -11,7 +11,11 @@ router = APIRouter()
 @router.post("/chat")
 def chat(request: ChatRequest):
 
+    print("Document ID:", request.document_id)
+
     document = get_document(request.document_id)
+
+    print("Document:", document)
 
     if document is None:
         return {
