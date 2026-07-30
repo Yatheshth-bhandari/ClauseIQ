@@ -25,11 +25,9 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     text = extract_text(file_path)
 
-    store_document(file.filename, text)
-
     summary = summarize_contract(text)
 
     return {
-        "document_id": file.filename,
-        "summary": summary
-    }
+    "document_id": file.filename,
+    "summary": summary
+   }
