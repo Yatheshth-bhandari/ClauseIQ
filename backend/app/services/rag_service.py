@@ -2,8 +2,14 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = None
 
+
+def get_model():
+    global model
+    if model is None:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+    return model
 
 def chunk_text(text, chunk_size=500):
     chunks = []
@@ -15,7 +21,7 @@ def chunk_text(text, chunk_size=500):
 
 
 def create_embeddings(chunks):
-    embeddings = model.encode(chunks)
+    embeddings = get_model().encode(chunks)
     return np.array(embeddings, dtype="float32")
 
 
@@ -28,7 +34,7 @@ def build_index(embeddings):
 
 def retrieve_chunks(query, chunks, index, k=5):
 
-    query_embedding = model.encode([query]).astype("float32")
+    query_embedding = get_model().encode([query]).astype("float32")
 
     distances, indices = index.search(query_embedding, k)
 
