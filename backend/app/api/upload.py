@@ -20,16 +20,20 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
 
+    # Save PDF
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-        
-    store_document(file.filename, text)
+    # Extract text from PDF
     text = extract_text(file_path)
 
+    # Store document in vector database
+    store_document(file.filename, text)
+
+    # Generate summary
     summary = summarize_contract(text)
 
     return {
-    "document_id": file.filename,
-    "summary": summary
-   }
+        "document_id": file.filename,
+        "summary": summary
+    }
